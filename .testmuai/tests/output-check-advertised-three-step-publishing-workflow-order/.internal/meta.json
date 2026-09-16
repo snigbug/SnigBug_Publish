@@ -1,0 +1,24 @@
+{
+  "test_id": "69782b13-47c2-4669-a033-42660f9cdb9b",
+  "project_id": "01JRWGPT1RTKGTPDYHVJWJ7X01",
+  "folder_id": "01M2M6FNTFDCHX3Q4C63BNDDJ7",
+  "org_id": "550422",
+  "session_name": "check-advertised-three-step-publishing-workflow-order",
+  "commit_id": "5733a801-0f3a-43d2-a987-bcdb8460fe2c",
+  "testcase_id": "01M2M6FP4B36N86DAFN03NFYNQ",
+  "executions": [
+    {
+      "execution_id": "24d7b074-1f02-4aac-8b03-4c6be002a778",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-09-16T04:11:25.660Z"
+    },
+    {
+      "execution_id": "dfc03e47-e2ef-4168-a7a4-08a3631e98c2",
+      "run_kind": "author",
+      "status": "passed",
+      "at": "2026-09-16T04:28:22.425Z"
+    }
+  ]
+}

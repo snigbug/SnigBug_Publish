@@ -22,9 +22,14 @@ Snigdha_Publish/
 │   └── notionpress_requirements.md
 ├── .testmuai/
 │   └── tests/
+│       ├── check-advertised-three-step-publishing-workflow-order_test.md
+│       ├── check-built-in-cover-and-interior-design-tools-claim_test.md
+│       ├── check-global-distribution-reach-claim_test.md
+│       ├── check-supported-publication-formats-claim_test.md
+│       ├── check-supported-publishing-languages-claim_test.md
+│       ├── check-visible-print-on-demand-fulfillment-claim_test.md
 │       ├── verify-separate-isbn-pod-and-global-distribution-claims-for_test.md
-│       ├── verify-supported-release-formats-and-publication-languages_test.md
-│       └── verify-built-in-cover-and-interior-design-tools-are_test.md
+│       └── verify-supported-release-formats-and-publication-languages_test.md
 ├── .gitignore
 └── README.md
 ```
@@ -84,7 +89,7 @@ For a non-interactive login you can use:
 
 ```bash
 kane-cli login --username "<username>" --access-key "<access-key>"
-kane-cli config project 01J87QEHKVYWMP0W5E8K5CMXRA
+kane-cli config project 01JRWGPT1RTKGTPDYHVJWJ7X01
 ```
 
 ### 1. Ingest requirements
@@ -101,7 +106,7 @@ This snapshots the requirement document into the local assurance store.
 kane-cli context extract
 ```
 
-Kane proposes use cases from the requirement document and cites the source material. Against `notionpress_requirements.md` this currently proposes five use cases: choosing a publishing package, self-publishing a book globally, receiving royalty payouts, managing published-book operations and promotion, and browsing/purchasing published books.
+Kane proposes use cases from the requirement document and cites the source material. Against `notionpress_requirements.md` this currently proposes eight use cases: three package-choice variants (standard, photo-book, Outpublish), self-publishing a book globally, receiving royalty payouts, managing post-publication author operations, author growth/referral programs, and browsing/purchasing published books. Only "self-publishing a book globally" is promoted to trusted and designed in this exercise — the rest stay queued.
 
 ### 3. Review
 
@@ -209,16 +214,18 @@ The workflow in `.github/workflows/notionpress-assurance.yml`:
 3. Installs Kane CLI.
 4. Logs into TestMu AI using GitHub Secrets.
 5. Runs the committed Notion Press tests in headless mode.
-6. Validates the generated evidence pack.
+6. Validates the generated evidence pack — this is what actually fails the build (a missing or corrupt pack), not an individual test's pass/fail.
 7. Commits the pack to `evidence/latest.evidence` (skipped on `pull_request` runs — see the workflow file's comment on why).
 8. Writes pass/fail totals and the evidence pack id to the run's Step Summary.
 9. Uploads evidence, `Result.md` files, test outputs, and the raw NDJSON logs as workflow artifacts.
+
+The CI job itself always reports green once the suite runs — a failing scenario is training content, not a pipeline break. Check the Step Summary or `evidence/latest.evidence` for the real per-test result.
 
 ## Recommended training demo
 
 Do not make every scenario pass.
 
-The committed suite already demonstrates this: of the three designed tests for "Self-publish a book globally," one (built-in design tools) passes cleanly, and two (ISBN/POD/distribution claims; supported formats and languages) fail against the live site — kane-cli's own bug-detection flags both as agent missteps in the verification step, not defects in Notion Press itself. Use them to walk through:
+The committed suite already demonstrates this: of the eight designed tests for "Self-publish a book globally," seven pass cleanly (built-in design tools, global distribution reach, supported publication formats, publishing languages, print-on-demand fulfillment, the advertised 3-step workflow, simultaneous paperback/eBook release), and one (separate ISBN/POD/distribution claims for each format) fails against the live site — kane-cli's own bug-detection flags it as an agent misstep in the verification step, not a confirmed defect in Notion Press itself. Use it to walk through:
 
 ```text
 Requirement

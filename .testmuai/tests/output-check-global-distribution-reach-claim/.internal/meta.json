@@ -1,0 +1,24 @@
+{
+  "test_id": "70cc8598-e5c4-4247-b2c8-4cfdec715523",
+  "project_id": "01JRWGPT1RTKGTPDYHVJWJ7X01",
+  "folder_id": "01M2M6FNTFDCHX3Q4C63BNDDJ7",
+  "org_id": "550422",
+  "session_name": "check-global-distribution-reach-claim",
+  "commit_id": "3ad28de1-2065-44d9-872b-c1fb3bcb78bd",
+  "testcase_id": "01M2M6PQCKVZQVWQCW1FTFBZ1Z",
+  "executions": [
+    {
+      "execution_id": "8677656e-8bbd-404e-bb3a-9befb6dd7913",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-09-16T04:14:59.844Z"
+    },
+    {
+      "execution_id": "dfc03e47-e2ef-4168-a7a4-08a3631e98c2",
+      "run_kind": "author",
+      "status": "passed",
+      "at": "2026-09-16T04:28:22.426Z"
+    }
+  ]
+}

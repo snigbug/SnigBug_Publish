@@ -1,18 +1,24 @@
 {
-  "test_id": "cbc04faf-0762-489b-b669-b6d6123caaff",
-  "project_id": "01J87QEHKVYWMP0W5E8K5CMXRA",
-  "folder_id": "01J87QEHMHFXWC40A758WRX3NR",
-  "org_id": "588659",
+  "test_id": "3adb6092-114e-4f06-8bed-bc94ad888cd9",
+  "project_id": "01JRWGPT1RTKGTPDYHVJWJ7X01",
+  "folder_id": "01M2M6FNTFDCHX3Q4C63BNDDJ7",
+  "org_id": "550422",
   "session_name": "verify-supported-release-formats-and-publication-languages",
-  "commit_id": "7cc0ce7b-dc5d-44a8-a098-f6fbc18e3be7",
-  "testcase_id": "01M28WGA90BYE5HRMDNNNJ7ZGH",
+  "commit_id": "652c8ce8-cb50-4db9-8330-77c5c9438ca3",
+  "testcase_id": "01M2M78TFP22YGH6JZCHQQ840A",
   "executions": [
     {
-      "execution_id": "40c67210-2179-43de-ad36-bb652dbff076",
+      "execution_id": "e34b44f9-0ae3-47af-997e-6040f4dcb96d",
       "run_kind": "author",
       "status": "passed",
       "valid": true,
-      "at": "2026-09-11T18:49:50.883Z"
+      "at": "2026-09-16T04:28:05.542Z"
+    },
+    {
+      "execution_id": "dfc03e47-e2ef-4168-a7a4-08a3631e98c2",
+      "run_kind": "author",
+      "status": "passed",
+      "at": "2026-09-16T04:28:22.429Z"
     }
   ]
 }

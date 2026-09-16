@@ -1,18 +1,24 @@
 {
-  "test_id": "bf80118b-2ac1-46d6-9eb1-e71816737722",
-  "project_id": "01J87QEHKVYWMP0W5E8K5CMXRA",
-  "folder_id": "01J87QEHMHFXWC40A758WRX3NR",
-  "org_id": "588659",
+  "test_id": "7fb4d637-cf6e-4daa-94bf-db284c6a7384",
+  "project_id": "01JRWGPT1RTKGTPDYHVJWJ7X01",
+  "folder_id": "01M2M6FNTFDCHX3Q4C63BNDDJ7",
+  "org_id": "550422",
   "session_name": "verify-separate-isbn-pod-and-global-distribution-claims-for",
-  "commit_id": "f11f24bd-c720-414f-ba9c-d49d1e7bd831",
-  "testcase_id": "01M28VDVKH888Q5Y5R7RMTKNKG",
+  "commit_id": "02d7fb49-1803-4543-a96c-64b700d81595",
+  "testcase_id": "01M2M72M370BV8Z15HQXZGS8JN",
   "executions": [
     {
-      "execution_id": "c5d91948-553b-4eb9-9c96-1278ad9c61ce",
+      "execution_id": "49c5ab83-24d6-4bc2-8859-9f482a43f26f",
       "run_kind": "author",
-      "status": "passed",
+      "status": "broken",
       "valid": true,
-      "at": "2026-09-11T18:28:33.655Z"
+      "at": "2026-09-16T04:22:59.133Z"
+    },
+    {
+      "execution_id": "dfc03e47-e2ef-4168-a7a4-08a3631e98c2",
+      "run_kind": "author",
+      "status": "broken",
+      "at": "2026-09-16T04:28:22.429Z"
     }
   ]
 }

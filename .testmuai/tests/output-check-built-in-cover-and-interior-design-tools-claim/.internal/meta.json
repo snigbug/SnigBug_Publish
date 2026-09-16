@@ -1,0 +1,24 @@
+{
+  "test_id": "f53461ba-51da-4fdd-b73b-254c04329651",
+  "project_id": "01JRWGPT1RTKGTPDYHVJWJ7X01",
+  "folder_id": "01M2M6FNTFDCHX3Q4C63BNDDJ7",
+  "org_id": "550422",
+  "session_name": "check-built-in-cover-and-interior-design-tools-claim",
+  "commit_id": "7c77a8a4-7262-4b89-a2f0-d65269cbbb77",
+  "testcase_id": "01M2M6KHRZTFRF3Q1RJXTE5T0T",
+  "executions": [
+    {
+      "execution_id": "095fcd61-ef6f-46dc-8704-6efefbd2a692",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-09-16T04:13:10.003Z"
+    },
+    {
+      "execution_id": "dfc03e47-e2ef-4168-a7a4-08a3631e98c2",
+      "run_kind": "author",
+      "status": "passed",
+      "at": "2026-09-16T04:28:22.426Z"
+    }
+  ]
+}

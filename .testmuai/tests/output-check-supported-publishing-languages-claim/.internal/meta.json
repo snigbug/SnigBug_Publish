@@ -1,0 +1,24 @@
+{
+  "test_id": "0f86948b-4fd3-447f-a44e-4808bfe0cd61",
+  "project_id": "01JRWGPT1RTKGTPDYHVJWJ7X01",
+  "folder_id": "01M2M6FNTFDCHX3Q4C63BNDDJ7",
+  "org_id": "550422",
+  "session_name": "check-supported-publishing-languages-claim",
+  "commit_id": "29845eec-ddfa-4828-94a7-6f89069f5a10",
+  "testcase_id": "01M2M6X6TM4F0A7XYFH8JNDZ8B",
+  "executions": [
+    {
+      "execution_id": "fabbe9e6-8f9f-4284-b276-4ead85076b43",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-09-16T04:18:18.282Z"
+    },
+    {
+      "execution_id": "dfc03e47-e2ef-4168-a7a4-08a3631e98c2",
+      "run_kind": "author",
+      "status": "passed",
+      "at": "2026-09-16T04:28:22.428Z"
+    }
+  ]
+}

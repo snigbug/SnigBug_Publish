@@ -1,0 +1,24 @@
+{
+  "test_id": "c9bb0010-4734-40c4-8cba-a57b61add03e",
+  "project_id": "01JRWGPT1RTKGTPDYHVJWJ7X01",
+  "folder_id": "01M2M6FNTFDCHX3Q4C63BNDDJ7",
+  "org_id": "550422",
+  "session_name": "check-visible-print-on-demand-fulfillment-claim",
+  "commit_id": "22c418f1-67ce-4e6d-9ff6-fde4a1420549",
+  "testcase_id": "01M2M7030S6H7ASK1YKGG4211R",
+  "executions": [
+    {
+      "execution_id": "6699cdc1-2836-4187-a14f-8b7d92b87b7e",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-09-16T04:19:40.107Z"
+    },
+    {
+      "execution_id": "dfc03e47-e2ef-4168-a7a4-08a3631e98c2",
+      "run_kind": "author",
+      "status": "passed",
+      "at": "2026-09-16T04:28:22.428Z"
+    }
+  ]
+}

@@ -51,7 +51,7 @@ jobs:
           kane-cli login \
             --username "$LT_USERNAME" \
             --access-key "$LT_ACCESS_KEY"
-          kane-cli config project 01J87QEHKVYWMP0W5E8K5CMXRA
+          kane-cli config project 01JRWGPT1RTKGTPDYHVJWJ7X01
 
       - name: List committed tests
         run: kane-cli testmd list
