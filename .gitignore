@@ -1,0 +1,17 @@
+# Kane CLI local assurance store
+.context/
+
+# Kane CLI runtime evidence — the raw run output (random execution-id
+# filename each run). CI copies the latest pack to evidence/latest.evidence
+# (NOT ignored, see below) and commits it, so this stays local/CI-only.
+.testmuai/evidence/
+
+# Local Kane CLI session/config artifacts
+.testmuai/sessions/
+.testmuai/*.log
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

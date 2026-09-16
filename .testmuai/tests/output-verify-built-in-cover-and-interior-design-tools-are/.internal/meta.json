@@ -1,0 +1,18 @@
+{
+  "test_id": "45cbdc6d-4acf-4e5a-aee9-68812a8cb02f",
+  "project_id": "01J87QEHKVYWMP0W5E8K5CMXRA",
+  "folder_id": "01J87QEHMHFXWC40A758WRX3NR",
+  "org_id": "588659",
+  "session_name": "verify-built-in-cover-and-interior-design-tools-are",
+  "commit_id": "cfde1b02-bbfe-4604-87bd-e3bb5734ce53",
+  "testcase_id": "01M28SC9QR30QYAJTY1MMQ0MPB",
+  "executions": [
+    {
+      "execution_id": "0865a426-6b2f-44a5-aa11-bed912244ec7",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-09-11T17:49:52.927Z"
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+name: Notion Press - Kane CLI Assurance
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Without this, a push and a manual dispatch landing close together race for
+# the same committed tests — kane-cli falls back to a per-test lock and one
+# run executes in readonly mode instead of failing loudly, which just hides
+# the contention rather than preventing it. Queue instead of overlapping.
+concurrency:
+  group: notionpress-assurance-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  notionpress-assurance:
+    name: Run Notion Press assurance suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Kane CLI
+        run: npm install -g @testmuai/kane-cli
+
+      - name: Install Kane skill
+        run: kane-cli install skill
+
+      - name: Verify Kane CLI
+        run: |
+          node --version
+          kane-cli --version
+
+      - name: Authenticate with TestMu AI
+        env:
+          LT_USERNAME: ${{ secrets.LT_USERNAME }}
+          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+        run: |
+          kane-cli login \
+            --username "$LT_USERNAME" \
+            --access-key "$LT_ACCESS_KEY"
+          kane-cli config project 01J87QEHKVYWMP0W5E8K5CMXRA
+
+      - name: List committed tests
+        run: kane-cli testmd list
+
+      # testrun emits its own NDJSON to stdout automatically once stdout isn't
+      # a TTY (no --agent flag needed here) — tee it so the summary step below
+      # can read testrun_summary/testrun_done without re-parsing raw logs.
+      - name: Run Notion Press assurance suite
+        id: testrun
+        continue-on-error: true
+        run: |
+          kane-cli testrun run \
+            --headless \
+            --on-failure fail-fast \
+            | tee testrun-output.ndjson
+
+      - name: Show evidence files
+        if: always()
+        run: |
+          echo "Evidence generated under .testmuai/evidence/"
+          find .testmuai/evidence -maxdepth 2 -type f -print 2>/dev/null || true
+
+      - name: Validate evidence packs
+        id: validate
+        if: always()
+        shell: bash
+        run: |
+          shopt -s nullglob
+          packs=(.testmuai/evidence/*.evidence)
+
+          if [ ${#packs[@]} -eq 0 ]; then
+            echo "No .evidence pack was generated."
+            exit 1
+          fi
+
+          validation_failed=0
+
+          for pack in "${packs[@]}"; do
+            echo "Validating $pack"
+            kane-cli evidence validate "$pack" --json | tee -a evidence-validate.ndjson || validation_failed=1
+          done
+
+          if [ "$validation_failed" -ne 0 ]; then
+            echo "One or more evidence packs failed validation."
+            exit 1
+          fi
+
+      # Commits the pack into the repo itself instead of leaving it only in a
+      # 14-day Actions artifact. Skipped on pull_request: GITHUB_TOKEN there
+      # is read-only for forked PRs regardless of the permissions block above,
+      # and pushing back onto a PR head from within its own check is the kind
+      # of thing that can trigger loops depending on branch protection rules.
+      # Kept to ONE file, always overwritten — kane-cli names each pack with a
+      # random execution id, and a fresh ~13MB pack every run would otherwise
+      # grow the repo unboundedly. Ask if you want per-run history instead.
+      - name: Commit evidence pack
+        if: always() && github.event_name != 'pull_request'
+        run: |
+          shopt -s nullglob
+          packs=(.testmuai/evidence/*.evidence)
+          if [ ${#packs[@]} -eq 0 ]; then
+            echo "No evidence pack to commit."
+            exit 0
+          fi
+
+          mkdir -p evidence
+          cp "${packs[0]}" evidence/latest.evidence
+
+          git config user.name "kane-cli-bot"
+          git config user.email "kane-cli-bot@users.noreply.github.com"
+          git add evidence/latest.evidence
+          STATUS="passed"
+          [ "${{ steps.testrun.outcome }}" = "failure" ] && STATUS="failed"
+          git diff --cached --quiet || git commit -m "evidence: run #${{ github.run_number }} ($STATUS)"
+          git push
+
+      # The rest of this workflow only writes to the raw log and an artifact
+      # you have to download and unzip to see — nothing shows up on the run's
+      # own Summary page. This surfaces the pass/fail totals, evidence pack
+      # id, and validation result right there instead.
+      - name: Write GitHub Step Summary
+        if: always()
+        run: |
+          {
+            echo "## Notion Press — Kane CLI Assurance"
+            echo ""
+            SUMMARY_LINE=$(grep '"type":"testrun_summary"' testrun-output.ndjson 2>/dev/null | tail -1)
+            if [ -n "$SUMMARY_LINE" ]; then
+              STATUS=$(echo "$SUMMARY_LINE" | jq -r '.execution.status')
+              EVIDENCE_ID=$(echo "$SUMMARY_LINE" | jq -r '.execution.evidence_id')
+              PASSED=$(echo "$SUMMARY_LINE" | jq -r '.totals.passed')
+              FAILED=$(echo "$SUMMARY_LINE" | jq -r '.totals.failed')
+              BROKEN=$(echo "$SUMMARY_LINE" | jq -r '.totals.broken')
+              SKIPPED=$(echo "$SUMMARY_LINE" | jq -r '.totals.skipped')
+              TOTAL=$(echo "$SUMMARY_LINE" | jq -r '.totals.tests')
+              DURATION=$(echo "$SUMMARY_LINE" | jq -r '.duration_s')
+              ICON="✅"; [ "$STATUS" != "passed" ] && ICON="❌"
+              echo "| | |"
+              echo "|---|---|"
+              echo "| $ICON **Result** | $STATUS |"
+              echo "| **Tests** | $PASSED passed, $FAILED failed, $BROKEN broken, $SKIPPED skipped (of $TOTAL) |"
+              echo "| **Duration** | ${DURATION}s |"
+              if [ "${{ github.event_name }}" = "pull_request" ]; then
+                echo "| **Evidence pack** | \`$EVIDENCE_ID.evidence\` — download it from this run's **kane-cli-evidence** artifact (not committed on pull_request runs) |"
+              else
+                echo "| **Evidence pack** | \`$EVIDENCE_ID.evidence\` — committed to [\`evidence/latest.evidence\`](../../blob/main/evidence/latest.evidence), overwritten each run; open it with \`kane-cli evidence serve evidence/latest.evidence\` |"
+              fi
+            else
+              echo "_No testrun_summary event found — the suite may have failed before producing one. See the \"Run Notion Press assurance suite\" step log._"
+            fi
+            echo ""
+            echo "### Evidence pack validation"
+            echo ""
+            if [ -f evidence-validate.ndjson ]; then
+              echo '```json'
+              cat evidence-validate.ndjson
+              echo '```'
+            else
+              echo "_No validation output captured._"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail build if the assurance suite failed
+        if: steps.testrun.outcome == 'failure'
+        run: exit 1
+
+      - name: Upload Kane CLI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kane-cli-evidence
+          path: |
+            .testmuai/evidence/
+            .testmuai/tests/**/Result.md
+            .testmuai/tests/**/output-*/
+            testrun-output.ndjson
+            evidence-validate.ndjson
+          if-no-files-found: warn
+          retention-days: 14

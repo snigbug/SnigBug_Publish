@@ -1,0 +1,18 @@
+{
+  "test_id": "bf80118b-2ac1-46d6-9eb1-e71816737722",
+  "project_id": "01J87QEHKVYWMP0W5E8K5CMXRA",
+  "folder_id": "01J87QEHMHFXWC40A758WRX3NR",
+  "org_id": "588659",
+  "session_name": "verify-separate-isbn-pod-and-global-distribution-claims-for",
+  "commit_id": "f11f24bd-c720-414f-ba9c-d49d1e7bd831",
+  "testcase_id": "01M28VDVKH888Q5Y5R7RMTKNKG",
+  "executions": [
+    {
+      "execution_id": "c5d91948-553b-4eb9-9c96-1278ad9c61ce",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-09-11T18:28:33.655Z"
+    }
+  ]
+}
